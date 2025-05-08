@@ -1,0 +1,30 @@
+{
+  "os": "Windows-10-10.0.22000-SP0",
+  "python": "CPython 3.11.7",
+  "startedAt": "2025-05-08T09:02:36.562929Z",
+  "program": "C:\\Users\\巫雄才\\Desktop\\data_platform\\AQI-predict\\AQI_display\\AQI预测2\\train.py",
+  "codePath": "AQI_display\\AQI预测2\\train.py",
+  "git": {
+    "remote": "git@github.com:WuXiongcai/AQI-predict.git",
+    "commit": "d844c7f89d541e3f48eb4318bee794f8b978e12f"
+  },
+  "root": "C:\\Users\\巫雄才\\Desktop\\data_platform\\AQI-predict\\AQI_display\\AQI预测2",
+  "host": "DESKTOP-OJFBHSR",
+  "executable": "C:\\ProgramData\\anaconda3\\python.exe",
+  "codePathLocal": "train.py",
+  "cpu_count": 12,
+  "cpu_count_logical": 16,
+  "disk": {
+    "/": {
+      "total": "510846300160",
+      "used": "456744058880"
+    }
+  },
+  "memory": {
+    "total": "16802594816"
+  },
+  "cpu": {
+    "count": 12,
+    "countLogical": 16
+  }
+}

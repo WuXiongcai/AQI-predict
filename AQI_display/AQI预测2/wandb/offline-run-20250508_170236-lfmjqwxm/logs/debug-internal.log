@@ -1,0 +1,15 @@
+{"time":"2025-05-08T17:02:36.6278465+08:00","level":"INFO","msg":"stream: starting","core version":"0.19.11","symlink path":"C:\\Users\\巫雄才\\Desktop\\data_platform\\AQI-predict\\AQI_display\\AQI预测2\\wandb\\offline-run-20250508_170236-lfmjqwxm\\logs\\debug-core.log"}
+{"time":"2025-05-08T17:02:36.7396684+08:00","level":"WARN","msg":"GraphQL client is nil, skipping feature loading"}
+{"time":"2025-05-08T17:02:36.7403008+08:00","level":"INFO","msg":"created new stream","id":"lfmjqwxm"}
+{"time":"2025-05-08T17:02:36.7403008+08:00","level":"INFO","msg":"stream: started","id":"lfmjqwxm"}
+{"time":"2025-05-08T17:02:36.7408076+08:00","level":"INFO","msg":"writer: Do: started","stream_id":"lfmjqwxm"}
+{"time":"2025-05-08T17:02:36.7408076+08:00","level":"INFO","msg":"handler: started","stream_id":"lfmjqwxm"}
+{"time":"2025-05-08T17:02:36.7409253+08:00","level":"INFO","msg":"sender: started","stream_id":"lfmjqwxm"}
+{"time":"2025-05-08T17:02:36.7477961+08:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-05-08T17:02:37.7500266+08:00","level":"INFO","msg":"stream: closing","id":"lfmjqwxm"}
+{"time":"2025-05-08T17:02:37.7500266+08:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-05-08T17:02:37.7500266+08:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-05-08T17:02:37.7500266+08:00","level":"INFO","msg":"handler: closed","stream_id":"lfmjqwxm"}
+{"time":"2025-05-08T17:02:37.7500266+08:00","level":"INFO","msg":"writer: Close: closed","stream_id":"lfmjqwxm"}
+{"time":"2025-05-08T17:02:37.7500266+08:00","level":"INFO","msg":"sender: closed","stream_id":"lfmjqwxm"}
+{"time":"2025-05-08T17:02:37.7505386+08:00","level":"INFO","msg":"stream: closed","id":"lfmjqwxm"}
