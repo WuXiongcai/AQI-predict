@@ -74,7 +74,7 @@ def main():
     # 模型参数
     input_channels = last_sequence.shape[1]  # 特征数量
     sequence_length = last_sequence.shape[0]  # 序列长度
-    output_dim = 8  # AQI + 6个特征 + Quality
+    output_dim = 9  # AQI + 6个特征 + Quality + hap
     prediction_length = 24  # 预测未来24小时
     
     print(f"\n模型参数:")
@@ -87,8 +87,8 @@ def main():
     model = CNNGRU(
         input_channels=input_channels,
         sequence_length=sequence_length,
-        hidden_dim=128,  # 使用默认值
-        num_layers=2,    # 使用默认值
+        hidden_dim=64,  # 使用与训练时相同的隐藏层维度
+        num_layers=2,
         output_dim=output_dim,
         prediction_length=prediction_length
     ).to(device)
@@ -109,7 +109,7 @@ def main():
     predictions = predict_future(model, last_sequence, device, data_processor)
     
     # 反归一化预测结果
-    feature_names = ['AQI', 'PM2_5', 'PM10', 'SO2', 'NO2', 'CO', 'O3', 'Quality']
+    feature_names = ['AQI', 'PM2_5', 'PM10', 'SO2', 'NO2', 'CO', 'O3', 'hap', 'Quality']
     predictions_dict = {}
     
     for i, feature in enumerate(feature_names[:-1]):  # 除了Quality
@@ -117,6 +117,9 @@ def main():
             predictions_dict[feature] = data_processor.scalers[feature].inverse_transform(
                 predictions[:, i].reshape(-1, 1)
             ).flatten()
+            # 对hap进行四舍五入处理为整数
+            if feature == 'hap':
+                predictions_dict[feature] = np.round(predictions_dict[feature]).astype(int)
         else:
             predictions_dict[feature] = predictions[:, i]
     

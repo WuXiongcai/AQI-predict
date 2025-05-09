@@ -51,16 +51,28 @@ class DataProcessor:
             self.df['time'] = self.df.index
         
         # 数值列
-        self.numeric_columns = ['AQI', 'PM2_5', 'PM10', 'SO2', 'NO2', 'CO', 'O3']
+        self.numeric_columns = ['AQI', 'PM2_5', 'PM10', 'SO2', 'NO2', 'CO', 'O3', 'hap']
         
         # 对每个数值特征进行归一化
         for column in self.numeric_columns:
             if column in self.df.columns:
-                # 将字符串转换为浮点数
-                self.df[column] = pd.to_numeric(self.df[column], errors='coerce').astype(np.float32)
-                scaler = MinMaxScaler()
-                self.df[column] = scaler.fit_transform(self.df[column].values.reshape(-1, 1)).astype(np.float32)
-                self.scalers[column] = scaler
+                # 将字符串转换为浮点数，处理可能的错误值
+                try:
+                    if column != 'hap':  # hap已经是数值类型
+                        self.df[column] = pd.to_numeric(self.df[column], errors='coerce')
+                    # 填充可能的NaN值
+                    if self.df[column].isna().any():
+                        # 使用前向填充和后向填充的组合
+                        self.df[column] = self.df[column].fillna(method='ffill').fillna(method='bfill')
+                    # 确保数据类型为float32
+                    self.df[column] = self.df[column].astype(np.float32)
+                    # 归一化
+                    scaler = MinMaxScaler()
+                    self.df[column] = scaler.fit_transform(self.df[column].values.reshape(-1, 1))
+                    self.scalers[column] = scaler
+                except Exception as e:
+                    print(f"Error processing column {column}: {str(e)}")
+                    continue
         
         # 将Quality转换为数值
         quality_mapping = {
@@ -73,6 +85,11 @@ class DataProcessor:
         }
         if 'Quality' in self.df.columns:
             self.df['Quality'] = self.df['Quality'].map(quality_mapping).astype(np.float32)
+            
+        # 检查是否有任何NaN值
+        if self.df[self.numeric_columns + ['Quality']].isna().any().any():
+            print("Warning: There are still NaN values in the processed data")
+            print(self.df[self.numeric_columns + ['Quality']].isna().sum())
     
     def prepare_sequences(self, sequence_length=72, prediction_length=24):
         features = []
@@ -86,9 +103,16 @@ class DataProcessor:
             feature_seq = self.df[feature_columns].iloc[i:i+sequence_length].values
             target_seq = self.df[feature_columns].iloc[i+sequence_length:i+sequence_length+prediction_length].values
             
+            # 检查是否有NaN值
+            if np.isnan(feature_seq).any() or np.isnan(target_seq).any():
+                continue
+                
             features.append(feature_seq)
             targets.append(target_seq)
         
+        if not features or not targets:
+            raise ValueError("No valid sequences could be created. Check your data for NaN values.")
+            
         return np.array(features, dtype=np.float32), np.array(targets, dtype=np.float32)
     
     def prepare_data(self, sequence_length=72, prediction_length=24, train_ratio=0.8):
